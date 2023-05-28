@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  content-white-label-net:
+    driver: bridge
+
+services:
+  redis:
+    image: 'bitnami/redis:6.0.6'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - content-white-label-net
+    ports:
+      - 127.0.0.1:6379:6379
+  mysql:
+    image: 'bitnami/mysql:5.7.31'
+    environment:
+      - MYSQL_DATABASE=kids
+      - MYSQL_ROOT_PASSWORD=gG693674yUqWzSAmNBLp67
+    networks:
+      - content-white-label-net
+    ports:
+      - 127.0.0.1:3307:3306
+    volumes:
+      - ~/Desktop/Projects/kids-api/data/volumes/mysql:/bitnami/mysql/data

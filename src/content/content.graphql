@@ -1,0 +1,131 @@
+scalar Date
+type Content {
+  id: Int
+  title: String
+  text: String
+  thumbnail_path: String
+  file: String
+  type: String
+  status: Int
+  created_at: Date
+  updated_at: Date
+  categories: CategoryListResult
+  categoryTypes: CategoryTypeListResult
+}
+
+# type ContentCategory {
+#   id: Int
+#   name: String
+#   category_type_id: Int
+#   description: String
+#   url_descriptor: String
+#   logo: String
+#   banner: String
+#   status: Int
+#   created_at: Date
+#   updated_at: Date
+# }
+
+# type ContentCategoryType {
+#   id: Int!
+#   name: String
+# }
+
+enum ContentType {
+  AUD
+  VID
+  PIC
+  TEXT
+}
+
+input ContentUpdateArgs {
+  title: String
+  text: String
+  thumbnail_path: String
+  type: ContentType
+  file: String
+  status: Int
+  categoryIds: [Int]
+}
+
+input ContentCreateArgs {
+  title: String!
+  text: String
+  thumbnail_path: String
+  file: String
+  type: ContentType!
+  status: Int = 1
+  categoryIds: [Int]
+}
+
+input StringFilterOptions {
+  equals: String
+  not: String
+  contains: String
+  startsWith: String
+  endsWith: String
+}
+
+input NumberFilterOptions {
+  equals: Int
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+}
+
+input ContentFilter {
+  title: StringFilterOptions
+  text: StringFilterOptions
+  thumbnail_path: StringFilterOptions
+  type: ContentType
+  status: Int
+  created_at: Date
+  updated_at: Date
+}
+
+enum Order {
+  asc
+  desc
+}
+
+input ContentOrderFields {
+  title: Order
+  text: Order
+  thumbnail_path: Order
+  type: Order
+  status: Order
+  created_at: Order
+  updated_at: Order
+}
+
+type Query {
+  contents(
+    filter: ContentFilter
+    page: Int = 1
+    orderBy: [ContentOrderFields]
+    category_id: Int
+    category_type_id: Int
+  ): ContentListResult
+}
+
+type Query {
+  contentById(id: Int!): Content
+}
+
+type Mutation {
+  createContent(content: ContentCreateArgs): Content!
+}
+
+type Mutation {
+  updateContent(id: Int!, content: ContentUpdateArgs): Content
+}
+
+type Mutation {
+  deleteContent(id: Int!): Content
+}
+
+type ContentListResult {
+  data: [Content]
+  totalCount: Int!
+}

@@ -1,0 +1,123 @@
+scalar Date
+
+type User {
+  id: Int
+  first_name: String!
+  last_name: String!
+  email: String!
+  mobile: String!
+  status: Int!
+  created_at: Date
+  updated_at: Date
+  userRoles: UserRoleListResult
+}
+
+type Login {
+  access_token: String
+  refresh_token: String
+  token_type: String
+  expires_in: Int
+}
+
+# type UserRoles {
+#   id: Int
+#   user_id: Int
+#   role_id: Int
+#   role: Role
+# }
+
+input UserUpdateArgs {
+  first_name: String
+  last_name: String
+  email: String
+  mobile: String
+  password: String
+  status: Int
+  role_ids: [Int]
+  created_at: Date
+  updated_at: Date
+}
+
+input UserCreateArgs {
+  first_name: String!
+  last_name: String!
+  email: String!
+  mobile: String!
+  password: String!
+  status: Int!
+  role_ids: [Int]
+  created_at: Date
+  updated_at: Date
+}
+
+enum UserCreateArgRole {
+  user
+  admin
+}
+
+input UserFilter {
+  first_name: StringFilterOptions
+  last_name: StringFilterOptions
+  email: StringFilterOptions
+  mobile: StringFilterOptions
+  created_at: StringFilterOptions
+  updated_at: StringFilterOptions
+}
+
+input UserOrderFields {
+  first_name: Order
+  last_name: Order
+  email: Order
+  mobile: Order
+  created_at: Order
+  updated_at: Order
+}
+
+type Query {
+  users(
+    page: Int = 1
+    filter: UserFilter
+    orderBy: [UserOrderFields]
+  ): UserListResult
+  userById(id: Int!): User
+  isLogin(token: String!): Boolean!
+  profile: User
+  mySessions: SessionListResult
+  getUserSessions(mobile: String!): SessionListResult
+}
+
+type Mutation {
+  logout(token: String!): Boolean!
+  login(mobile: String!, password: String!): Login
+  refreshToken(refreshToken: String!): Login
+  createUser(user: UserCreateArgs): User!
+  updateUser(id: Int!, user: UserUpdateArgs!): User
+  deleteUser(id: Int!): User
+  terminateMySession(session: SessionArg!): Boolean!
+  terminateUserSession(mobile: String!, session: SessionArg!): Boolean
+}
+
+type UserListResult {
+  data: [User]
+  totalCount: Int
+}
+type Session {
+  device_type: String
+  os: String
+  name: String
+  version: String
+  visitorId: String
+}
+
+input SessionArg {
+  device_type: String!
+  os: String!
+  name: String!
+  version: String!
+  visitorId: String!
+}
+
+type SessionListResult {
+  data: [Session]
+  totalCount: Int
+}

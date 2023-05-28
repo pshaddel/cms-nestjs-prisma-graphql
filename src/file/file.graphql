@@ -1,0 +1,19 @@
+scalar Upload
+scalar createReadStream
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  createReadStream: createReadStream!
+}
+
+type Mutation {
+  audioUpload(file: Upload!): FileOutput
+  imageUpload(file: Upload!): FileOutput
+  videoUpload(file: Upload!): FileOutput
+}
+
+type FileOutput {
+  path: String
+  error: String
+}

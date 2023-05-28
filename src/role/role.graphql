@@ -1,0 +1,22 @@
+type Query {
+  roles: RoleListResult
+}
+type Mutation {
+  createRole(name: String!): Role
+  updateRole(id: Int!, name: String!): Role
+  deleteRole(id: Int!): Role
+}
+type Role {
+  id: Int
+  name: String
+  users(
+    page: Int = 1
+    filter: UserFilter
+    orderBy: [UserOrderFields]
+  ): UserListResult
+}
+
+type RoleListResult {
+  data: [Role]
+  totalCount: Int
+}

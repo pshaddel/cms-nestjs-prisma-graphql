@@ -1,0 +1,40 @@
+scalar Date
+
+type Query {
+  usersRoles(page: Int = 1, filter: UserRoleFilter): UserRoleListResult
+  userRoleById(userId: Int!): [UserRole]
+}
+
+type Mutation {
+  createUserRole(userId: Int!, roleId: Int!): UserRole
+  deleteUserRole(userRoleId: Int!): UserRole
+}
+
+input CreateUserRoleArgs {
+  user_id: Int!
+  role_id: Int!
+}
+
+type UserRole {
+  id: Int!
+  user_id: Int!
+  role_id: Int!
+  created_at: Date
+  updated_at: Date
+  role: Role
+}
+
+type Role {
+  id: Int
+  name: String
+}
+
+input UserRoleFilter {
+  user_id: Int
+  role_id: Int
+}
+
+type UserRoleListResult {
+  data: [UserRole]
+  totalCount: Int
+}

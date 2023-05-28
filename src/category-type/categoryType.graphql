@@ -1,0 +1,56 @@
+scalar Date
+
+type CategoryType {
+  id: Int!
+  name: String!
+  categories(
+    page: Int = 1
+    filter: CategoryFilter
+    orderBy: [CategoryOrderFields]
+  ): CategoryListResult
+  contents(
+    filter: ContentFilter
+    orderBy: [ContentOrderFields]
+    page: Int = 1
+  ): ContentListResult
+}
+
+type TestsData {
+  id: Int
+  myData: DATA
+}
+
+type DATA {
+  test: Int
+}
+input CategoryTypeFilter {
+  name: StringFilterOptions
+}
+
+type Query {
+  categoryTypes(
+    page: Int = 1
+    filter: CategoryTypeFilter
+  ): CategoryTypeListResult
+  getCategoryTypeById(id: Int!): CategoryType
+}
+
+type Mutation {
+  createCategoryType(name: String!): CategoryType
+  updateCategoryType(id: Int!, name: String!): CategoryType
+  deleteCategoryType(id: Int!): CategoryType
+}
+
+input CategoryArgs {
+  name: String
+  category_type_id: Int
+  description: String
+  url_descriptor: String
+  logo: String
+  banner: String
+}
+
+type CategoryTypeListResult {
+  data: [CategoryType]
+  totalCount: Int!
+}

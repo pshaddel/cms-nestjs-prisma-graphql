@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  id               Int                @id @default(autoincrement())
+  name             String?
+  category_type_id Int?
+  description      String?
+  url_descriptor   String?
+  logo             String?
+  banner           String?
+  status           Int?
+  created_at       DateTime?
+  updated_at       DateTime?
+  category_type    category_type?     @relation(fields: [category_type_id], references: [id])
+  content_category content_category[]
+
+  @@index([category_type_id], name: "fk_category_type_idx")
+}
+
+model category_type {
+  id         Int        @id @default(autoincrement())
+  name       String?
+  created_at DateTime?
+  updated_at DateTime?
+  category   category[]
+}
+
+model content {
+  id               Int                @id @default(autoincrement())
+  title            String?
+  text             String?
+  thumbnail_path   String?
+  file             String?
+  type             String?
+  status           Int?
+  created_at       DateTime?
+  updated_at       DateTime?
+  content_category content_category[]
+}
+
+model content_category {
+  id          Int       @id @default(autoincrement())
+  content_id  Int?
+  category_id Int?
+  category    category? @relation(fields: [category_id], references: [id])
+  content     content?  @relation(fields: [content_id], references: [id])
+
+  @@index([category_id], name: "fk_category_idx")
+  @@index([content_id], name: "fk_content_idx")
+}
+
+model role {
+  id          Int         @id @default(autoincrement())
+  name        String?
+  descriptor  String?
+  description String?
+  created_at  DateTime?
+  updated_at  DateTime?
+  user_role   user_role[]
+}
+
+model user {
+  id         Int         @id @default(autoincrement())
+  first_name String?
+  last_name  String?
+  mobile     String?     @unique
+  status     Int?
+  user_role  user_role[]
+  created_at DateTime?
+  updated_at DateTime?
+  email      String?
+  password   String?
+}
+
+model user_role {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  role_id    Int?
+  created_at DateTime?
+  updated_at DateTime?
+  role       role?     @relation(fields: [role_id], references: [id])
+  user       user?     @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id, role_id], name: "unique_index")
+  @@index([role_id], name: "fk_user_role_idx")
+  @@index([user_id], name: "fk_user_user_idx")
+}
+
+model content_category_category_type {
+  view_id                 String    @unique
+  id                      Int
+  title                   String?
+  text                    String?
+  thumbnail_path          String?
+  type                    String?
+  status                  Int?
+  created_at              DateTime?
+  updated_at              DateTime?
+  category_id             Int?
+  category_name           String?
+  category_type_id        Int?
+  category_description    String?
+  category_url_descriptor String?
+  category_logo           String?
+  category_banner         String?
+  category_status         Int?
+  category_created_at     DateTime?
+  category_updated_at     DateTime?
+  category_type_name      String?
+}

@@ -1,0 +1,22 @@
+model content_category_category_type {
+    view_id                 String    @unique
+    id                      Int
+    title                   String?
+    text                    String?
+    thumbnail_path          String?
+    type                    String?
+    status                  Int?
+    created_at              DateTime?
+    updated_at              DateTime?
+    category_id             Int?
+    category_name           String?
+    category_type_id        Int?
+    category_description    String?
+    category_url_descriptor String?
+    category_logo           String?
+    category_banner         String?
+    category_status         Int?
+    category_created_at     DateTime?
+    category_updated_at     DateTime?
+    category_type_name      String?
+}

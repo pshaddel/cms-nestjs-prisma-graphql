@@ -1,0 +1,97 @@
+scalar Date
+
+type Category {
+  id: Int
+  name: String
+  category_type_id: Int
+  description: String
+  url_descriptor: String
+  logo: String
+  banner: String
+  status: Int
+  created_at: Date
+  updated_at: Date
+  categoryType: CategoryType
+  contents(
+    filter: ContentFilter
+    orderBy: [ContentOrderFields]
+    page: Int = 1
+  ): ContentListResult
+}
+
+# interface ICategory {
+#   id: Int
+#   name: String
+#   category_type_id: Int
+#   description: String
+#   url_descriptor: String
+#   logo: String
+#   banner: String
+#   status: Int
+#   created_at: Date
+#   updated_at: Date
+#   categoryType: CategoryType
+#   contents(
+#     filter: ContentFilter
+#     orderBy: [ContentOrderFields]
+#     page: Int = 1
+#   ): ContentListResult
+# }
+
+type CategoryType {
+  id: Int!
+  name: String!
+}
+
+input CategoryFilter {
+  name: StringFilterOptions
+  description: StringFilterOptions
+  status: NumberFilterOptions
+  url_descriptor: StringFilterOptions
+  category_type_id: Int
+}
+
+input CategoryOrderFields {
+  created_at: Order
+  updated_at: Order
+  name: Order
+  description: Order
+}
+
+type Query {
+  categories(
+    page: Int = 1
+    filter: CategoryFilter
+    orderBy: [CategoryOrderFields]
+  ): CategoryListResult
+  getCategoryById(id: Int!): Category
+}
+
+type Mutation {
+  createCategory(category: CategoryArgs): Category
+  updateCategory(id: Int!, category: CategoryUpdateArgs!): Category
+  deleteCategory(id: Int!): Category
+}
+
+input CategoryArgs {
+  name: String
+  category_type_id: Int!
+  description: String
+  url_descriptor: String
+  logo: String
+  banner: String
+}
+
+input CategoryUpdateArgs {
+  name: String
+  category_type_id: Int
+  description: String
+  url_descriptor: String
+  logo: String
+  banner: String
+}
+
+type CategoryListResult {
+  data: [Category]
+  totalCount: Int!
+}

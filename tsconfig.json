@@ -1,0 +1,27 @@
+{
+  "include": ["src", "prisma"],
+  // "exclude": ["/public", "node_modules", "dist", "data", "coverage", ".vscode"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    // "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "inlineSourceMap": true,
+    // "normalTypeScriptOptions": "here"
+  },
+  "typedocOptions": {
+    "mode": "file",
+    "out": "docs",
+    "inputFiles": ["./src"],
+    "name": "Content Management System",
+    "ignoreCompilerErrors": true,
+    "plugin": "typedoc-plugin-markdown"
+}
+}
